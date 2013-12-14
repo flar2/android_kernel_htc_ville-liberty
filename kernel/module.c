@@ -1030,8 +1030,12 @@ static int check_version(Elf_Shdr *sechdrs,
 	struct modversion_info *versions;
 
 	if(!strncmp("prima_", mod->name, 6)) return 1; 
+
+	if(!strncmp("moc_", mod->name, 4)) return 1;
+
 	if (!crc)
 		return 1;
+
 
 	
 	if (versindex == 0)
