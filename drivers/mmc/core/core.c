@@ -49,7 +49,7 @@ static struct workqueue_struct *workqueue;
 
 static struct wake_lock mmc_removal_work_wake_lock;
 
-bool use_spi_crc = 1;
+bool use_spi_crc = 0;
 module_param(use_spi_crc, bool, 0);
 
 #ifdef CONFIG_MMC_UNSAFE_RESUME
