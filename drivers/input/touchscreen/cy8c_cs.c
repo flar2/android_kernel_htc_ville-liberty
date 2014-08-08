@@ -118,24 +118,23 @@ EXPORT_SYMBOL(sweep2wake_setdev);
 
 static void sweep2wake_presspwr(struct work_struct * sweep2wake_presspwr_work) {
 
-	int pocket_mode = 0;
-  
-	if (scr_suspended == true && pocket_detect == 1)
-		pocket_mode = power_key_check_in_pocket();
 
-	if (!pocket_mode || pocket_detect == 0) { 
-
-	   	if (!mutex_trylock(&pwrlock))
+	if (scr_suspended == true && pocket_detect == 1) {
+		if (pocket_detection_check()) {
 			return;
-		input_event(sweep2wake_pwrdev, EV_KEY, KEY_POWER, 1);
-		input_event(sweep2wake_pwrdev, EV_SYN, 0, 0);
-		msleep(80);
-		input_event(sweep2wake_pwrdev, EV_KEY, KEY_POWER, 0);
-		input_event(sweep2wake_pwrdev, EV_SYN, 0, 0);
-		msleep(80);
-		mutex_unlock(&pwrlock);
-		return;
+		}
 	}
+
+   	if (!mutex_trylock(&pwrlock))
+		return;
+	input_event(sweep2wake_pwrdev, EV_KEY, KEY_POWER, 1);
+	input_event(sweep2wake_pwrdev, EV_SYN, 0, 0);
+	msleep(80);
+	input_event(sweep2wake_pwrdev, EV_KEY, KEY_POWER, 0);
+	input_event(sweep2wake_pwrdev, EV_SYN, 0, 0);
+	msleep(80);
+	mutex_unlock(&pwrlock);
+	return;
 }
 static DECLARE_WORK(sweep2wake_presspwr_work, sweep2wake_presspwr);
 
