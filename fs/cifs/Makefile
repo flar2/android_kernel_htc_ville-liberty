@@ -1,6 +1,8 @@
 #
 # Makefile for Linux CIFS VFS client 
 #
+ccflags-y := -Wno-array-bounds
+
 obj-$(CONFIG_CIFS) += cifs.o
 
 cifs-y := cifsfs.o cifssmb.o cifs_debug.o connect.o dir.o file.o inode.o \
